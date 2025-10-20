@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold mb-0">POS Dashboard</h2>
+        <span class="text-muted fs-5">{{ pos_account.name }}</span>
+    </div>
+
+<!-- Special Events QR Codes Only -->
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0 fw-semibold">Special Events QR Codes</h5>
+    </div>
+    <div class="card-body text-center">
+        {% if special_events %}
+            {% for event in special_events %}
+                {% if event.qr_code_base64 %}
+                    <img src="data:image/png;base64,{{ event.qr_code_base64 }}" 
+                         alt="QR Code" 
+                         style="width:150px; height:150px; margin:10px;"/>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <span class="text-muted">No special events assigned</span>
+        {% endif %}
+    </div>
+</div>
+
+
+</div>{% endblock %}

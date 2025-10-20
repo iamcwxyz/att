@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Admin Dashboard</h2>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-people"></i> Total Students</h5>
+                <h2>{{ total_students }}</h2>
+                <small>{{ registered_students }} registered</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-calendar-event"></i> Total Events</h5>
+                <h2>{{ total_events }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-check-circle"></i> Today's Attendance</h5>
+                <h2>{{ total_attendance_today }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5>Upcoming Events</h5>
+    </div>
+    <div class="card-body">
+        {% if upcoming_events %}
+        <div class="table-wrapper table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Event</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in upcoming_events %}
+                <tr>
+                    <td>{{ event.title }}</td>
+                    <td>{{ event.date }}</td>
+                    <td>{{ event.start_time }} - {{ event.end_time }}</td>
+                    <td>
+                        <a href="{% url 'view_event_qr' event.id %}" class="btn btn-sm btn-primary">View QR</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        {% else %}
+        <p>No upcoming events</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<h2>My Profile</h2>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Personal Information</div>
+            <div class="card-body">
+                <p><strong>Student ID:</strong> {{ student.student_id }}</p>
+                <p><strong>Name:</strong> {{ student.get_full_name }}</p>
+                <p><strong>Course:</strong> {{ student.get_course_display }}</p>
+                <p><strong>Year:</strong> {{ student.get_year_display }}</p>
+                <p><strong>Section:</strong> {{ student.section }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Editable Information</div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="mb-3">
+                        <label>{{ field.label }}</label>
+                        {% render_field field class="form-control" %}
+                    </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                    <a href="{% url 'student_change_password' %}" class="btn btn-secondary">Change Password</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<h2>Add POS Account</h2>
+<div class="card">
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="mb-3">
+                <label>{{ field.label }}</label>
+                {% render_field field class="form-control" %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Create POS Account</button>
+            <a href="{% url 'manage_pos' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

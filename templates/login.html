@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center min-vh-100">
+    <div class="col-md-5">
+        <div class="card shadow-lg border-0 rounded-4">
+            <div class="card-header bg-primary text-white text-center rounded-top-4">
+                <!-- Logo Section -->
+                <div class="mb-3 mt-3">
+                    {% if system_settings.logo %}
+                        <img src="{{ system_settings.logo.url }}" alt="Logo" class="img-fluid" style="max-height: 80px;">
+                    {% else %}
+                        <img src="{% static 'images/logo.png' %}" alt="Logo" class="img-fluid" style="max-height: 80px;">
+                    {% endif %}
+                </div>
+
+                <h4 class="fw-bold mb-0">
+                    {{ system_settings.system_name|default:"Student Attendance System" }}
+                </h4>
+                <small class="text-light">Student Attendance Login</small>
+            </div>
+
+            <div class="card-body p-4">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Username or Student ID</label>
+                        {% render_field form.username class="form-control form-control-lg rounded-3" placeholder="Enter your username or ID" %}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Password</label>
+                        {% render_field form.password class="form-control form-control-lg rounded-3" placeholder="Enter your password" %}
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 btn-lg rounded-3 fw-semibold">Sign In</button>
+                </form>
+
+                <hr class="my-4">
+
+                <div class="text-center">
+                    <p class="mb-1 text-muted">New here?</p>
+                    <a href="{% url 'registration_check' %}" class="btn btn-outline-primary rounded-3 fw-semibold">
+                        Register as a Student
+                    </a>
+                </div>
+            </div>
+
+            <div class="card-footer text-center bg-light rounded-bottom-4">
+                <small class="text-muted">
+                    &copy; {{ system_settings.system_name|default:"Student Attendance System" }} — All rights reserved
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

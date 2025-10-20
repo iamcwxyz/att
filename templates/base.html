@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ system_settings.system_name }}{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    {% block extra_css %}{% endblock %}
+    <style>
+        .navbar-brand img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .countdown {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .qr-code-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .qr-code-container img {
+            max-width: 400px;
+            width: 100%;
+        }
+
+        /* Mobile responsive styles */
+        @media (max-width: 768px) {
+            .container-fluid { padding-left: 10px; padding-right: 10px; }
+            .table-responsive { overflow-x: auto; }
+            .card { margin-bottom: 15px; }
+            h1, h2 { font-size: 1.5rem; }
+            .btn { padding: 0.5rem 1rem; font-size: 0.9rem; }
+            .countdown { font-size: 1.5rem; }
+        }
+
+        @media (max-width: 576px) {
+            .navbar-brand { font-size: 0.9rem; }
+            .navbar-brand img { height: 25px; }
+            .table { font-size: 0.85rem; }
+            .btn-sm { padding: 0.25rem 0.5rem; font-size: 0.75rem; }
+        }
+
+        table { width: 100%; }
+        .table-wrapper { overflow-x: auto; }
+    </style>
+</head>
+<body>
+    {% if user.is_authenticated %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'dashboard' %}">
+                {% if system_settings.logo %}
+                    <img src="{{ system_settings.logo.url }}" alt="Logo" class="me-2">
+                {% else %}
+                    <img src="{% static 'images/logo.png' %}" alt="Logo" class="me-2">
+                {% endif %}
+                <span class="fw-semibold">{{ system_settings.system_name }}</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+
+                    {% if user.user_type == 'admin' %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'manage_students' %}"><i class="bi bi-people"></i> Students</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'manage_events' %}"><i class="bi bi-calendar-event"></i> Events</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'manage_pos' %}"><i class="bi bi-laptop"></i> POS</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'manage_special_events' %}"><i class="bi bi-stars"></i> Special Events</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'admin_settings' %}"><i class="bi bi-gear"></i> Settings</a></li>
+                    {% elif user.user_type == 'student' %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'student_profile' %}"><i class="bi bi-person-circle"></i> Profile</a></li>
+                    {% endif %}
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+
+    <div class="container-fluid mt-4">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Manage Events</h2>
+<div class="mb-3">
+    <a href="{% url 'add_event' %}" class="btn btn-primary">Create Event</a>
+</div>
+
+<div class="table-wrapper table-responsive">
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for event in page_obj %}
+        <tr>
+            <td>{{ event.title }}</td>
+            <td>{{ event.date }}</td>
+            <td>{{ event.start_time }} - {{ event.end_time }}</td>
+            <td>
+                <a href="{% url 'view_event_qr' event.id %}" class="btn btn-sm btn-info">QR Code</a>
+                <a href="{% url 'edit_event' event.id %}" class="btn btn-sm btn-warning">Edit</a>
+                <form method="post" action="{% url 'delete_event' event.id %}" style="display:inline;" onsubmit="return confirm('Delete?');">
+                    {% csrf_token %}
+                    <button class="btn btn-sm btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4" class="text-center">No events</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

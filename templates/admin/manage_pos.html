@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Manage POS Accounts</h2>
+<div class="mb-3">
+    <a href="{% url 'add_pos' %}" class="btn btn-primary">Add POS Account</a>
+</div>
+
+<div class="table-wrapper table-responsive">
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Serial Number</th>
+            <th>Display Mode</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pos in pos_accounts %}
+        <tr>
+            <td>{{ pos.name }}</td>
+            <td>{{ pos.serial_number }}</td>
+            <td>{{ pos.get_display_mode_display }}</td>
+            <td>
+                {% if pos.is_active %}
+                <span class="badge bg-success">Active</span>
+                {% else %}
+                <span class="badge bg-secondary">Inactive</span>
+                {% endif %}
+            </td>
+            <td>
+                <form method="post" action="{% url 'delete_pos' pos.id %}" style="display:inline;" onsubmit="return confirm('Delete?');">
+                    {% csrf_token %}
+                    <button class="btn btn-sm btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5" class="text-center">No POS accounts</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<h2>Create Special Event</h2>
+<div class="card">
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="mb-3">
+                <label>{{ field.label }}</label>
+                {% if field.name == 'assigned_pos' %}
+                {{ field }}
+                {% else %}
+                {% render_field field class="form-control" %}
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Create Special Event</button>
+            <a href="{% url 'manage_special_events' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center mt-5">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-lg border-0 rounded-4">
+            <div class="card-header bg-primary text-white rounded-top-4 text-center py-3">
+                <h4 class="fw-bold mb-0">
+                    <i class="bi bi-calendar-event"></i> Edit Special Event
+                </h4>
+                <small class="text-light">Modify the details below and click Save Changes</small>
+            </div>
+
+            <div class="card-body p-4">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Event Title</label>
+                        {{ form.title|add_class:"form-control rounded-3" }}
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">Start Date</label>
+                            {{ form.start_date|add_class:"form-control rounded-3" }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">End Date</label>
+                            {{ form.end_date|add_class:"form-control rounded-3" }}
+                        </div>
+                    </div>
+
+                    {% if form.description %}
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Description</label>
+                        {{ form.description|add_class:"form-control rounded-3" }}
+                    </div>
+                    {% endif %}
+
+                    {% if form.image %}
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Event Image</label>
+                        {{ form.image|add_class:"form-control rounded-3" }}
+                        {% if event.image %}
+                        <div class="mt-2 text-center">
+                            <img src="{{ event.image.url }}" alt="Current Image" class="img-fluid rounded shadow-sm" style="max-height: 200px;">
+                            <p class="text-muted small mt-2">Current event image</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{% url 'manage_special_events' %}" class="btn btn-outline-secondary rounded-3">
+                            <i class="bi bi-arrow-left"></i> Return
+                        </a>
+                        <button type="submit" class="btn btn-primary rounded-3 fw-semibold">
+                            <i class="bi bi-save"></i> Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card-footer bg-light text-center rounded-bottom-4 py-2">
+                <small class="text-muted">&copy; {{ system_settings.system_name }}</small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

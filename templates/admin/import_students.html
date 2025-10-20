@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<h2>Import Students from CSV</h2>
+<div class="card">
+    <div class="card-body">
+        <div class="alert alert-info">
+            <h5><strong>CSV Import Format Requirements:</strong></h5>
+            <p><strong>Required Columns (in this exact order):</strong></p>
+            <ol>
+                <li><strong>student_id</strong> - Student ID number (e.g., 2021-001234)</li>
+                <li><strong>first_name</strong> - Student's first name</li>
+                <li><strong>last_name</strong> - Student's last name</li>
+                <li><strong>birthday</strong> - Date of birth in YYYY-MM-DD format (e.g., 2003-05-15)</li>
+                <li><strong>course</strong> - Course code: BSIT, BSCS, BSIS, or BSEMC</li>
+                <li><strong>year</strong> - Year level: 1, 2, 3, or 4</li>
+                <li><strong>section</strong> - Section (e.g., A, B, C)</li>
+                <li><strong>email</strong> - Email address (optional)</li>
+            </ol>
+            <p><strong>Sample CSV Format:</strong></p>
+            <pre>student_id,first_name,last_name,birthday,course,year,section,email
+2021-001234,Juan,Dela Cruz,2003-05-15,BSIT,1,A,juan@email.com
+2021-005678,Maria,Santos,2003-08-22,BSCS,2,B,maria@email.com</pre>
+            <p class="mt-2"><strong>Important Notes:</strong></p>
+            <ul>
+                <li>First row must be the header row with column names</li>
+                <li>When updating existing students, only Course, Year, and Section will be updated</li>
+                <li>Student passwords remain unchanged during CSV updates</li>
+                <li>Valid courses: BSIT, BSCS, BSIS, BSEMC</li>
+                <li>Valid years: 1, 2, 3, 4</li>
+            </ul>
+        </div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label>CSV File</label>
+                {% render_field form.csv_file class="form-control" %}
+            </div>
+            <button type="submit" class="btn btn-success">Import</button>
+            <a href="{% url 'manage_students' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

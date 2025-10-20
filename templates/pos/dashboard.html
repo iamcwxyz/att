@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold mb-0">POS Dashboard</h2>
+        <span class="text-muted fs-5">{{ pos_account.name }}</span>
+    </div>
+
+    <!-- Current Events -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 fw-semibold">Current Events</h5>
+            <i class="bi bi-calendar-event fs-5"></i>
+        </div>
+        <div class="card-body">
+            {% if current_events %}
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Event</th>
+                            <th scope="col">Time</th>
+                            <th scope="col" class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in current_events %}
+                        <tr>
+                            <td class="fw-semibold">{{ event.title }}</td>
+                            <td>{{ event.start_time }} - {{ event.end_time }}</td>
+                            <td class="text-center">
+                                <a href="{% url 'view_event_qr' event.id %}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-qr-code me-1"></i> Display QR
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center text-muted py-3">
+                <i class="bi bi-exclamation-circle me-1"></i> No current events
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Special Events -->
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 fw-semibold">Special Events</h5>
+            <i class="bi bi-star-fill fs-5"></i>
+        </div>
+        <div class="card-body">
+            {% if special_events %}
+            <ul class="list-group list-group-flush">
+                {% for event in special_events %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{{ event.title }}</strong><br>
+                        <small class="text-muted">{{ event.start_date }} — {{ event.end_date }}</small>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <div class="text-center text-muted py-3">
+                <i class="bi bi-exclamation-circle me-1"></i> No special events assigned
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

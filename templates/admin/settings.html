@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<h2>System Settings</h2>
+<div class="card">
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="mb-3">
+                <label>{{ field.label }}</label>
+                {% render_field field class="form-control" %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Update Settings</button>
+            <a href="{% url 'admin_change_password' %}" class="btn btn-secondary">Change Password</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

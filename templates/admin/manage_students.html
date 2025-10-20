@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Manage Students</h2>
+
+<div class="mb-3">
+    <a href="{% url 'add_student' %}" class="btn btn-primary">Add Student</a>
+    <a href="{% url 'import_students' %}" class="btn btn-success">Import CSV</a>
+    <a href="{% url 'export_attendance' %}" class="btn btn-info">Export Attendance</a>
+</div>
+
+<form method="get" class="mb-3">
+    <div class="input-group">
+        <input type="text" name="search" class="form-control" placeholder="Search students..." value="{{ search_query }}">
+        <button class="btn btn-outline-secondary" type="submit">Search</button>
+    </div>
+</form>
+
+
+
+
+<div class="table-wrapper table-responsive">
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Student ID</th>
+            <th>Full Name</th>
+            <th>Course</th>
+            <th>Year</th>
+            <th>Section</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for student in page_obj %}
+        <tr>
+            <td>{{ student.student_id }}</td>
+            <td>{{ student.get_full_name }}</td> <!-- ✅ Now shows “Last, First M.” -->
+            <td>{{ student.get_course_display }}</td>
+            <td>{{ student.get_year_display }}</td>
+            <td>{{ student.section }}</td>
+            <td>
+                {% if student.is_registered %}
+                <span class="badge bg-success">Registered</span>
+                {% else %}
+                <span class="badge bg-warning">Not Registered</span>
+                {% endif %}
+            </td>
+            <td>
+                <button class="btn btn-sm btn-info view-student" data-id="{{ student.id }}">View</button>
+                <a href="{% url 'edit_student' student.id %}" class="btn btn-sm btn-warning">Edit</a>
+                <form method="post" action="{% url 'delete_student' student.id %}" style="display:inline;" onsubmit="return confirm('Delete this student?');">
+                    {% csrf_token %}
+                    <button class="btn btn-sm btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="7" class="text-center">No students found</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+
+
+<nav>
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page=1&search={{ search_query }}">First</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}&search={{ search_query }}">Previous</a></li>
+        {% endif %}
+        <li class="page-item active"><span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
+        {% if page_obj.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}&search={{ search_query }}">Next</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&search={{ search_query }}">Last</a></li>
+        {% endif %}
+    </ul>
+</nav>
+
+<div class="modal fade" id="studentModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Student Information</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="studentInfo">Loading...</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).on('click', '.view-student', function() {
+    var studentId = $(this).data('id');
+    $.get('{% url "view_student" 0 %}'.replace('0', studentId), function(data) {
+        $('#studentInfo').html(`
+            <p><strong>Student ID:</strong> ${data.student_id}</p>
+            <p><strong>Name:</strong> ${data.first_name} ${data.last_name}</p>
+            <p><strong>Birthday:</strong> ${data.birthday}</p>
+            <p><strong>Course:</strong> ${data.course}</p>
+            <p><strong>Year:</strong> ${data.year}</p>
+            <p><strong>Section:</strong> ${data.section}</p>
+            <p><strong>Email:</strong> ${data.email}</p>
+            <p><strong>Registered:</strong> ${data.is_registered ? 'Yes' : 'No'}</p>
+            ${data.profile_picture ? `<img src="${data.profile_picture}" class="img-fluid">` : ''}
+        `);
+        $('#studentModal').modal('show');
+    });
+});
+</script>
+{% endblock %}

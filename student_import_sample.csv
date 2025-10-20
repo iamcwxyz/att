@@ -1,0 +1,6 @@
+student_id,first_name,last_name,birthday,course,year,section,email
+2021-001234,Juan,Dela Cruz,2003-05-15,BSIT,1,A,juan.delacruz@email.com
+2021-005678,Maria,Santos,2003-08-22,BSCS,2,B,maria.santos@email.com
+2021-009012,Pedro,Reyes,2002-12-10,BSIS,3,A,pedro.reyes@email.com
+2021-003456,Ana,Garcia,2004-02-28,BSEMC,1,C,ana.garcia@email.com
+2022-007890,Jose,Martinez,2004-07-19,BSIT,1,B,jose.martinez@email.com

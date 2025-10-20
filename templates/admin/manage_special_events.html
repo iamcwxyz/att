@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h2 class="mb-4">Manage Special Events</h2>
+
+<div class="mb-3">
+    <a href="{% url 'add_special_event' %}" class="btn btn-primary">
+        <i class="bi bi-plus-lg"></i> Create Special Event
+    </a>
+</div>
+
+<div class="table-wrapper table-responsive">
+    <table class="table table-striped align-middle">
+        <thead class="table-primary">
+            <tr>
+                <th>Title</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in special_events %}
+            <tr>
+                <td>{{ event.title }}</td>
+                <td>{{ event.start_date }}</td>
+                <td>{{ event.end_date }}</td>
+                <td class="text-center">
+                    <!-- View Button -->
+                    <button type="button" class="btn btn-sm btn-info text-white"
+                            data-bs-toggle="modal"
+                            data-bs-target="#viewEventModal{{ event.id }}">
+                        <i class="bi bi-eye"></i> View
+                    </button>
+
+                    <!-- Edit Button -->
+                    <a href="{% url 'edit_special_event' event.id %}" class="btn btn-sm btn-warning text-white">
+                        <i class="bi bi-pencil-square"></i> Edit
+                    </a>
+
+                    <!-- Delete Button -->
+                    <form method="post" action="{% url 'delete_special_event' event.id %}"
+                          style="display:inline;"
+                          onsubmit="return confirm('Are you sure you want to delete this event?');">
+                        {% csrf_token %}
+                        <button class="btn btn-sm btn-danger">
+                            <i class="bi bi-trash"></i> Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+
+            <!-- View Event Modal -->
+            <div class="modal fade" id="viewEventModal{{ event.id }}" tabindex="-1" aria-labelledby="viewEventLabel{{ event.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content rounded-4 shadow">
+                        <div class="modal-header bg-primary text-white rounded-top-4">
+                            <h5 class="modal-title" id="viewEventLabel{{ event.id }}">Event Details</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>Title:</strong> {{ event.title }}</p>
+                            <p><strong>Start Date:</strong> {{ event.start_date }}</p>
+                            <p><strong>End Date:</strong> {{ event.end_date }}</p>
+                            {% if event.description %}
+                                <p><strong>Description:</strong> {{ event.description }}</p>
+                            {% endif %}
+                            {% if event.image %}
+                                <p class="text-center mt-3">
+                                    <img src="{{ event.image.url }}" alt="Event Image" class="img-fluid rounded-3" style="max-height: 200px;">
+                                </p>
+                            {% endif %}
+
+                            <!-- QR Code Section -->
+                            {% if event.generate_qr %}
+                            <div class="text-center mt-4">
+                                <h6 class="fw-semibold">QR Code</h6>
+                                <img src="{{ event.generate_qr }}" alt="QR Code for {{ event.title }}" class="img-fluid rounded shadow-sm" style="max-height: 180px;">
+                                <p class="text-muted small mt-2">Scan to view event info</p>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <tr><td colspan="4" class="text-center text-muted">No special events</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

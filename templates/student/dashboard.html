@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Student Dashboard</h2>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-check-circle"></i> My Attendance</h5>
+                <h2>{{ total_attendance }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h5>Current Events</h5>
+    </div>
+    <div class="card-body">
+        {% if current_events %}
+        <div class="table-wrapper table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Event</th>
+                    <th>Time</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in current_events %}
+                <tr>
+                    <td>{{ event.title }}</td>
+                    <td>{{ event.start_time }} - {{ event.end_time }}</td>
+                    <td>
+                        {% if event.is_available_now %}
+                        <a href="{% url 'scan_qr' %}" class="btn btn-sm btn-success">Scan QR Code</a>
+                        {% else %}
+                        <span class="text-muted">Not available yet</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        {% else %}
+        <p>No current events</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5>Recent Attendance</h5>
+    </div>
+    <div class="card-body">
+        {% if recent_attendance %}
+        <ul class="list-group">
+            {% for attendance in recent_attendance %}
+            <li class="list-group-item">
+                <strong>{{ attendance.event.title }}</strong> - {{ attendance.timestamp|date:"M d, Y H:i" }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No attendance records</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
