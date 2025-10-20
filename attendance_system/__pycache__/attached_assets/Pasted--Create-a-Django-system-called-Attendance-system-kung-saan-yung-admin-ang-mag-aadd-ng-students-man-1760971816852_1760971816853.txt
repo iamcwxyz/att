@@ -1,0 +1,30 @@
+
+Create a Django system called Attendance system, kung saan yung admin ang mag aadd ng students manually, or import students thru CSV file, also export attendance by Year, Course and section. Admin can create events and can randomly select course, year and section theu check boxes.
+
+The admin dashboard will show the stats, like the number of students, Number of events, the current event that will be available soon, also and more. This will be accurate and true!
+
+In admin menu, In their manage students, There will be a CRUD functions like Creating students or manually adding students, Like their Student ID, Name, Birthday, Course, Year and section, also Email address if they have. Read or viewing the students information thru Floating Modal. Update, of course there will be update for admin if there is something wrong about the students information. Delete, The admin can delete students if they add wrong students. In students table, it will show all of their information thru table, with pagination. Also a search bar inside the manage students for the admin could search the students with scrolling the tables into the infinity.
+
+Student will register thru their Student ID, and a button continue and after continue, they can see a form where their informations displayed, their name, Student ID, Course, year and section will be remain untouch, they can only add profile picture, and set a password, after filling out the form of registration. A Successfully Registered Alert will be shown and now they can login in the system.
+
+The login page of admin and Student will be the same, The student can login thru student ID and password, and the admin can login thru username and password.
+
+Now another menu for admin, event Management. Here there will also be CRUD functions, Which is create event, Read or view the events, Update the events, and to delete the wrong event. Creating event will ask the admin about its title of the event, Time which is yung start time and end time (like sana 8:30 ung start nung event, at magtatapos yung event ng 12 PM, may option uli don to add another time for timeout, timeout is for afternoon optionally, kase minsan may event na whole day, meron ding event na naggagather sila ng attendance pero time, like am and afternoon)and date of the event, and a selection if what course, year and section that the event attendance be available, and also the event attendance qr code will be available at it's scheduled time, a 5 minutes timer will be there before the event qr code will be available. After creating the event attendance, a automatically generated qr code will be available at its scheduled time. Please note! AT IT'S SCHEDULED TIME! like if the admin set the events schedule time at 8:30 Am at 21 of October this year, the event qr code page will start to count 5 minutes or will start at 8:25 AM, so qr code will be available after the timer. Also there will be a export button where the admin could export the attendances per Course, year and section! It was filtered.
+
+Additionally, a settings for the admin, which where the can change the system name, its logo, their password and e.tc....
+
+The students Dashboard will show their stats, the current Event na may timer, pagkatapos nung timer, may button na lalabas don sa side ng pangalan ng event, to open the scanner for the student to scan the qr scanner of the event.
+
+Alalahanin, Only the admin can show the qr code of the event, knly the students can open a scanner.
+
+Also kapag na scan na nila yun, yung information nila malalagay sa admin attendance thru their designated courses year and section ha!? Please! Para hindiaging makalat.
+
+Pagkatapos nilang ma scan yung qr code, magpapakita yung , You successfully timed today!  Tapos babalik sa dashboard, at maka count don or malilista don yung attendance nila, or makikita nila don.
+
+A profile menu, Which where they can edit their Informations. But again, Student ID, Names, Course and section is remain untouchable!   If mag a update man, like their year, Only the admin can do it. If mag a update man, Like mag a upload ulit si admin ng updated CSV file, Only their Course, year and section lang yung magpapalit, pero yung mga password nila will be remain. Only the students can change their password okey????
+
+Also, In admin, The admin will have another menu, Machine management, like a POS, meron kaseng isang event na need ng isang QR Code Screen lang, Like a example, A galla, ito ay para sa lahat diba? So this will be use for the entire event attendees. Kaya dito, may create account, name or serial, Username and password to be used in the POS system, so login for the admin and students is also the same as the pos okay? So may separate account ang POS! if nakalogin na si POS, Don na magpapakita yung QR code ng event, pwede don qr or itype nalang ung student ID nila. So ang option dito is, Qr code or Student ID. Pero default is Qr code.
+
+Also add Manage special event attendance, this is different from the regular Event attendance, dito, Mag sesetup si admin ng Name of the Event, start time and end time of the event also the start/end date of the event.   And a selected account of POS that the special Event qr code will be shown, if the special event attendance didn't started, A countdown or a custom Image like a real inage that will be set on the making of the special event attendance, There the admin will add a picture of the event or the logo of the event. So kapag the admin successfully created the special event, Magpapakita na sa lahat ng selected POS ung qr code ng special event kapag tapos na yung countdown.
+
+Hindi makakagawa or makakapagregister ang student kapag wala sa system yung langalan nila that was added by the admin.  So a message showed, wait for the admin to add you in the system.

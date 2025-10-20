@@ -1,0 +1,165 @@
+Create a Django system called Attendance System, where the admin can add students manually or import them through a CSV file. The admin can also export attendance records filtered by Year, Course, and Section. The admin can create events and select which courses, years, and sections the event applies to using checkboxes.
+
+The admin dashboard displays statistics such as the total number of students, total events, upcoming events, and more. All information is accurate and reliable.
+
+
+---
+
+Admin Features
+
+Manage Students
+
+The Manage Students section provides full CRUD functionality:
+
+Create: Admin can manually add students with details including Student ID, Name, Birthday, Course, Year, Section, and Email (if available).
+
+Read/View: Student information can be viewed via a floating modal.
+
+Update: Admin can update student information if there are errors.
+
+Delete: Admin can remove incorrectly added students.
+
+
+All student information is displayed in a table with pagination, and a search bar allows the admin to quickly find students without endless scrolling.
+
+
+---
+
+Student Registration
+
+Students register using their Student ID:
+
+After clicking Continue, they see a form displaying their information (Name, Student ID, Course, Year, Section), which cannot be edited.
+
+Students can add a profile picture and set a password.
+
+After completing the form, a “Successfully Registered” alert appears, allowing them to log in.
+
+
+
+---
+
+Login
+
+The login page is shared for both admin and students:
+
+Students: Login with Student ID and password.
+
+Admins: Login with username and password.
+
+
+
+---
+
+Event Management
+
+The Event Management menu allows the admin to create, view, update, and delete events:
+
+Create Event:
+
+Enter event title, start and end times (with optional afternoon session), and date.
+
+Select which courses, years, and sections can attend.
+
+A QR code for attendance is automatically generated and is only available at the scheduled time, with a 5-minute countdown.
+
+Example: If an event is scheduled for 8:30 AM on October 21, the countdown starts at 8:25 AM, and the QR code becomes available after the timer ends.
+
+
+
+View, Update, Delete: Admin can manage events as needed.
+
+Export Attendance: Attendance can be exported filtered by Course, Year, and Section.
+
+
+
+---
+
+Admin Settings
+
+Admins can modify system settings, including:
+
+System name
+
+Logo
+
+Password
+
+Other configurable options
+
+
+
+---
+
+Student Dashboard
+
+Students’ dashboards display:
+
+Personal and event-related statistics
+
+Current events with a timer. Once the timer ends, a button appears next to the event name to open the QR code scanner
+
+
+Rules:
+
+Only the admin can display the event QR code.
+
+Students can only scan the QR code.
+
+After scanning, their attendance is recorded under their designated Course, Year, and Section.
+
+A message “You successfully timed today!” is shown, and the dashboard updates with their attendance record.
+
+
+
+---
+
+Profile Management
+
+Students can edit their profile, but Student ID, Name, Course, and Section cannot be changed.
+
+Only the admin can update the Year or bulk CSV-imported data.
+
+Passwords remain unchanged unless updated by the student.
+
+
+
+---
+
+Machine (POS) Management
+
+Admins can manage POS-style devices for events requiring a single QR code screen:
+
+Admins can create POS accounts with Name/Serial, Username, and Password.
+
+POS accounts can display the QR code or allow entry via Student ID (default is QR code).
+
+POS accounts operate independently but integrate with the main attendance system.
+
+
+
+---
+
+Special Event Attendance
+
+Admins can create Special Events:
+
+Set Name, Start/End Time, and Start/End Date
+
+Assign selected POS accounts that will display the special event QR code
+
+Before the event begins, a countdown or custom image (event logo or picture) is displayed
+
+After the countdown ends, the QR code becomes visible on all assigned POS screens
+
+
+
+---
+
+System Rules
+
+Students cannot register unless they are added by the admin. If they are not in the system, a message will appear telling them to wait for the admin.
+
+
+
+---
